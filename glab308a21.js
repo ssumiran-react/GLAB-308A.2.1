@@ -25,9 +25,10 @@ for (const i of adventurer.inventory) {
 ///////////////////////////////////
 ///  Part 2
 class Character {
+    static MAX_HEALTH = 100;
     constructor(name) {
         this.name = name;
-        this.health = 100;
+        this.health = Character.MAX_HEALTH;
         this.inventory = [];
     }
 
@@ -36,7 +37,7 @@ class Character {
         console.log(`${this.name} rolled a ${result}.`)
     }
 }
-
+const rob = new Character();
 const robin = new Character("Robin");
 robin.inventory = ["sword", "potion", "artifact"];
 
@@ -50,6 +51,43 @@ robin.companion.companion.inventory = ["small hat", "sunglasses"];
 robin.roll();
 robin.companion.roll();
 robin.companion.companion.roll();
-
+//console.log(rob);
 ///////////////////////////////////
-///  Part 3
+///  Part 3 and Part 4
+class Adventurer extends Character {
+    static ROLES = ["Fighter", "Healer", "Wizard"];
+    constructor(name, role) {
+        super(name);
+        // Adventurers have specialized roles.
+        this.role = "";
+        
+        for ( const r in Adventurer.ROLES){ 
+            if (Adventurer.ROLES[r].toLocaleLowerCase() === role.toLocaleLowerCase()){ 
+                this.role = Adventurer.ROLES[r];
+                break;
+            }
+        }    
+        
+        // Every adventurer starts with a bed and 50 gold coins.
+        this.inventory.push("bedroll", "50 gold coins");
+    }
+    // Adventurers have the ability to scout ahead of them.
+    scout() {
+        console.log(`${this.name} is scouting ahead...`);
+        super.roll();
+    }
+}
+class Companion extends Character {
+    constructor(name, type, inventory) {
+        super(name);
+        super.type = type;
+        super.inventory = inventory;
+    }
+}
+
+const sinbad = new Adventurer("Sinbad", "healeR");
+sinbad.companion = new Companion("Leo", "Cat", ["small hat", "sunglasses"]);
+console.log ("adv :",sinbad);
+
+//////////////////////////
+// Part 5
