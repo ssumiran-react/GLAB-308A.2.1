@@ -60,14 +60,19 @@ class Adventurer extends Character {
         super(name);
         // Adventurers have specialized roles.
         this.role = "";
-        
-        for ( const r in Adventurer.ROLES){ 
-            if (Adventurer.ROLES[r].toLocaleLowerCase() === role.toLocaleLowerCase()){ 
-                this.role = Adventurer.ROLES[r];
-                break;
+
+        // for (const r in Adventurer.ROLES) {
+        //     if (Adventurer.ROLES[r].toLocaleLowerCase() === role.toLocaleLowerCase()) {
+        //         this.role = Adventurer.ROLES[r];
+        //         break;
+        //     }
+        // }
+        Adventurer.ROLES.forEach( r => {
+            if (r.toLocaleLowerCase() === role.toLocaleLowerCase()) {
+                this.role = r;
             }
-        }    
-        
+        })
+
         // Every adventurer starts with a bed and 50 gold coins.
         this.inventory.push("bedroll", "50 gold coins");
     }
@@ -87,7 +92,29 @@ class Companion extends Character {
 
 const sinbad = new Adventurer("Sinbad", "healeR");
 sinbad.companion = new Companion("Leo", "Cat", ["small hat", "sunglasses"]);
-console.log ("adv :",sinbad);
+//console.log("adv :", sinbad);
 
 //////////////////////////
 // Part 5
+class AdventurerFactory {
+    constructor(role) {
+        this.role = role;
+        this.adventurers = [];
+    }
+
+    generate(name) {
+        const newAdventurer = new Adventurer(name, this.role);
+        this.adventurers.push(newAdventurer);
+    }
+
+    findByIndex(index) {
+        return this.adventurers[index];
+    }
+
+    findByName(name) {
+        return this.adventurers.find((a) => a.name === name);
+    }
+}
+const healers = new AdventurerFactory("Healer");
+const robinn = healers.generate("Robin");
+console.log(robinn);
