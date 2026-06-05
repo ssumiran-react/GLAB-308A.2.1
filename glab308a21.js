@@ -80,6 +80,27 @@ class Adventurer extends Character {
     scout() {
         console.log(`${this.name} is scouting ahead...`);
         super.roll();
+    } 
+
+    duel(Adventurer){
+        do{ 
+            if (this.roll.result < Adventurer.roll.result){
+                this.health--;
+            }else{
+                Adventurer.health--;
+            }
+        } while (this.health > 50 || Adventurer.health > 50);
+
+        if(this.health > 50){
+            console.log(`This adventur ${this.name} won the duel.`);
+        }else{
+            console.log(`This adventur ${Adventurer.name} won the duel.`);
+        }
+
+      /*  Subtract 1 from the adventurer with the lower roll.
+        Log the results of this “round” of the duel, including the rolls and current health values.
+        Repeat this process until one of the two adventurers reaches 50 health.
+        Log the winner of the duel: the adventurer still above 50 health.*/
     }
 }
 class Companion extends Character {
@@ -117,4 +138,4 @@ class AdventurerFactory {
 }
 const healers = new AdventurerFactory("Healer");
 const robinn = healers.generate("Robin");
-console.log(robinn);
+console.log(healers.findByName("Robin"));
